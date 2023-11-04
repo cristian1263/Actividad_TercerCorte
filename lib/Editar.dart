@@ -32,7 +32,7 @@ class _EditarState extends State<Editar> {
         arg["fecha"], arg["peso"].toString());
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Registrar")),
+      appBar: AppBar(title: const Text("Usuario")),
       body: Container(
         margin: const EdgeInsets.all(10),
         child: Column(children: [
@@ -62,34 +62,48 @@ class _EditarState extends State<Editar> {
           ),
           ElevatedButton(
               onPressed: () {
-                RegistrarUsuario();
+                EditarUsuario();
               },
-              child: const Text("Registrar"))
+              child: const Text("Actualizar")),
+          ElevatedButton(
+              onPressed: () {
+                EliminarUsuario();
+              },
+              child: const Text("Eliminar"))
         ]),
       ),
     );
   }
 
-  void RegistrarUsuario() async {
+  void EditarUsuario() async {
     String nombre = cntNombre.text;
     String apellido = cntApellido.text;
     String fecha = cntFecha.text;
     double peso = double.parse(cntPeso.text);
-    int r = await Transacciones.regUsuario(nombre, apellido, fecha, peso);
-    mostrarAlerta();
+    Map arg = ModalRoute.of(context)?.settings.arguments as Map;
+    int id = arg["id"];
+    int r = await Transacciones.edtUsuario(nombre, apellido, fecha, peso, id);
+    mostrarAlertaEditar();
   }
 
-  mostrarAlerta() {
+  void EliminarUsuario() async {
+    Map arg = ModalRoute.of(context)?.settings.arguments as Map;
+    int id = arg["id"];
+    int r = await Transacciones.eliUsuario(id);
+    mostrarAlertaEliminar();
+  }
+
+  mostrarAlertaEditar() {
     Widget ok = TextButton(
         onPressed: () {
-          Navigator.pop(context);
-          //Navigatior.pushNamedandRemoveUntil(context, '/', (route) => false);
+          //Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         },
         child: const Text("Aceptar"));
 
     AlertDialog al = AlertDialog(
       title: const Text("Mensaje"),
-      content: const Text("Se registro el Usuario"),
+      content: const Text("Se Actualizo el Usuario"),
       actions: [ok],
     );
 
@@ -97,6 +111,27 @@ class _EditarState extends State<Editar> {
         context: context,
         builder: (BuildContext context) {
           return al;
+        });
+  }
+
+  mostrarAlertaEliminar() {
+    Widget ok = TextButton(
+        onPressed: () {
+          //Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+        },
+        child: const Text("Aceptar"));
+
+    AlertDialog borrar = AlertDialog(
+      title: const Text("Mensaje"),
+      content: const Text("Se Elimino el usuario"),
+      actions: [ok],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return borrar;
         });
   }
 }

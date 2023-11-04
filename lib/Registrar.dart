@@ -10,53 +10,49 @@ class Registrar extends StatefulWidget {
 
 class _RegistrarState extends State<Registrar> {
   TextEditingController cntNombre = TextEditingController();
-  TextEditingController cntApellido = TextEditingController();
+  TextEditingController cntApellids = TextEditingController();
   TextEditingController cntFecha = TextEditingController();
   TextEditingController cntPeso = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Registrar")),
+      appBar: AppBar(
+        title: const Text("Registrar"),
+      ),
       body: Container(
         margin: const EdgeInsets.all(10),
-        child: Column(children: [
-          TextField(
-            controller: cntNombre,
-            decoration: const InputDecoration(
-              hintText: "Digite Nombres",
+        child: Column(
+          children: [
+            TextField(
+              controller: cntNombre,
+              decoration: const InputDecoration(hintText: "Digite Nombres"),
             ),
-          ),
-          TextField(
-            controller: cntApellido,
-            decoration: const InputDecoration(
-              hintText: "Digite Apellidos",
+            TextField(
+              controller: cntApellids,
+              decoration: const InputDecoration(hintText: "Digite Apellidos"),
             ),
-          ),
-          TextField(
-            controller: cntFecha,
-            decoration: const InputDecoration(
-              hintText: "Digite la Fecha",
+            TextField(
+              controller: cntFecha,
+              decoration: const InputDecoration(hintText: "Digite Fecha"),
             ),
-          ),
-          TextField(
-            controller: cntPeso,
-            decoration: const InputDecoration(
-              hintText: "Digite el Peso",
+            TextField(
+              controller: cntPeso,
+              decoration: const InputDecoration(hintText: "Digite Peso"),
             ),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                RegistrarUsuario();
-              },
-              child: const Text("Registrar"))
-        ]),
+            ElevatedButton(
+                onPressed: () {
+                  RegistrarUsuario();
+                },
+                child: const Text("Registrar"))
+          ],
+        ),
       ),
     );
   }
 
   void RegistrarUsuario() async {
     String nombre = cntNombre.text;
-    String apellido = cntApellido.text;
+    String apellido = cntApellids.text;
     String fecha = cntFecha.text;
     double peso = double.parse(cntPeso.text);
     int r = await Transacciones.regUsuario(nombre, apellido, fecha, peso);
@@ -66,14 +62,14 @@ class _RegistrarState extends State<Registrar> {
   mostrarAlerta() {
     Widget ok = TextButton(
         onPressed: () {
-          Navigator.pop(context);
-          //Navigatior.pushNamedandRemoveUntil(context, '/', (route) => false);
+          // Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         },
         child: const Text("Aceptar"));
 
     AlertDialog al = AlertDialog(
       title: const Text("Mensaje"),
-      content: const Text("Se registro el Usuario"),
+      content: const Text("Se registro el usuario"),
       actions: [ok],
     );
 

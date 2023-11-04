@@ -2,16 +2,16 @@ import 'package:sqflite/sqflite.dart';
 
 class Transacciones {
   static Future<void> crearTabla(Database db) async {
-    await db.execute("""  
-        CREATE TABLE usuarios(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          nombres    TEXT, 
-          apellidos  TEXT,
-          fecha_nac  TEXT,
-          peso       DOUBLE,
-          fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-   """);
+    await db.execute("""
+                    CREATE TABLE usuarios(
+                        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+                        nombres   TEXT,
+                        apellidos TEXT,
+                        fecha_nac TEXT,
+                        peso      DOUBLE,
+                        fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )                             
+                    """);
   }
 
   static Future<Database> db() async {
@@ -43,14 +43,14 @@ class Transacciones {
       "fecha_nac": fecha_nac,
       "peso": peso
     };
-    final id =
-        await con.update("usuarios", datos, where: "id= ?", whereArgs: [idU]);
+    final id = await con
+        .update("usuarios", datos, where: " id = ? ", whereArgs: [idU]);
     return id;
   }
 
   static Future<int> eliUsuario(int id) async {
     final con = await db();
-    final r = await con.delete("usuarios", where: "id= ?", whereArgs: [id]);
+    final r = await con.delete("usuarios", where: "id = ?", whereArgs: [id]);
     return r;
   }
 
@@ -59,3 +59,11 @@ class Transacciones {
     return await con.query("usuarios", orderBy: "id");
   }
 }
+
+// let funcion = async () => {
+//    var x = await proceso.insertarBD()
+//    console.log(x)
+//    console.log(x)
+//    console.log(x)
+//    console.log(x)
+// }
